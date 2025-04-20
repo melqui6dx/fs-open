@@ -1,0 +1,37 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    activate server
+    server-->>browser: HTML document (básico, sin notas)
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.css
+    activate server
+    server-->>browser: CSS para la SPA
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->>browser: Código JavaScript de la SPA
+    deactivate server
+
+    Note right of browser: El JS inicializa y carga el estado inicial
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{content: "nota1", date: "..."}, ...] (JSON)
+    deactivate server
+
+    Note right of browser: La SPA renderiza las notas dinámicamente
+
+    loop Cuando usuario añade nueva nota
+        browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+        activate server
+        Note over browser,server: Content-Type: application/json
+        server-->>browser: 201 Created (sin redirección)
+        deactivate server
+        
+        Note right of browser: La SPA actualiza la vista localmente<br>sin recargar la página
+    end
