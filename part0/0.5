@@ -25,13 +25,3 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: La SPA renderiza las notas dinámicamente
-
-    loop Cuando usuario añade nueva nota
-        browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
-        activate server
-        Note over browser,server: Content-Type: application/json
-        server-->>browser: 201 Created (sin redirección)
-        deactivate server
-        
-        Note right of browser: La SPA actualiza la vista localmente<br>sin recargar la página
-    end
